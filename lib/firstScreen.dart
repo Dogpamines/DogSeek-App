@@ -7,6 +7,7 @@ import 'searchHospital.dart';
 import 'mapMain.dart';
 import 'emergency.dart';
 import 'memo.dart';
+import 'dict.dart';
 
 class FirstScreen extends StatelessWidget {
   const FirstScreen({super.key});
@@ -48,7 +49,7 @@ class FirstScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Memo()),
+                          MaterialPageRoute(builder: (context) => Dict()),
                         );
                       },
                       child: Container(
