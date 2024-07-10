@@ -1,35 +1,35 @@
 import 'package:dio/dio.dart';
-import 'package:dogsick_project/dogDetail.dart';
+import 'package:dogsick_project/productDetail.dart';
 import 'package:flutter/material.dart';
 import 'location.dart';
 
-class Dict extends StatefulWidget {
-  const Dict({super.key});
+class Products extends StatefulWidget {
+  const Products({super.key});
 
   @override
-  State<Dict> createState() => _DictState();
+  State<Products> createState() => _ProductsState();
 }
 
-class _DictState extends State<Dict> {
+class _ProductsState extends State<Products> {
   final Dio dio = Dio();
-  List<dynamic> _dogs = [];
-  List<dynamic> _filteredDogs = [];
+  List<dynamic> _products = [];
+  List<dynamic> _filteredProducts = [];
   bool _isLoading = true;
   String _searchText = "";
 
   @override
   void initState() {
     super.initState();
-    _fetchDogs();
+    _fetchProducts();
   }
 
-  Future<void> _fetchDogs() async {
+  Future<void> _fetchProducts() async {
     try {
-      final response = await dio.get('http://10.0.2.2:8080/dict');
+      final response = await dio.get('http://10.0.2.2:8080/products');
       if (response.statusCode == 200) {
         setState(() {
-          _dogs = response.data['dict'];
-          _filteredDogs = _dogs;
+          _products = response.data['products'];
+          _filteredProducts = _products;
           _isLoading = false;
         });
       } else {
@@ -47,10 +47,10 @@ class _DictState extends State<Dict> {
     setState(() {
       _searchText = query;
       if (_searchText.isEmpty) {
-        _filteredDogs = _dogs;
+        _filteredProducts = _products;
       } else {
-        _filteredDogs = _dogs.where((dog) {
-          return dog['dogName']
+        _filteredProducts = _products.where((products) {
+          return products['prodName']
               .toString()
               .toLowerCase()
               .contains(_searchText.toLowerCase());
@@ -64,6 +64,7 @@ class _DictState extends State<Dict> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         centerTitle: true,
         leading: BackButton(
@@ -97,26 +98,31 @@ class _DictState extends State<Dict> {
             child: TextField(
               onChanged: _filterDogs,
               decoration: InputDecoration(
-                hintText: '견종을 입력 해주세요!',
-                hintStyle: TextStyle(
-                  fontSize: 14,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Color.fromRGBO(99, 197, 74, 100)),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color.fromRGBO(99, 197, 74, 100)),
+                      borderRadius: BorderRadius.circular(30)),
+                  hintText: '견종을 입력 해주세요!',
+                  hintStyle: TextStyle(
+                    fontSize: 14,
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color.fromRGBO(99, 197, 74, 100)),
+                    borderRadius: BorderRadius.circular(30),
+                  )),
             ),
           ),
         ),
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
-          : _filteredDogs.isEmpty
+          : _filteredProducts.isEmpty
               ? Center(child: Text('검색 결과가 없어요'))
               : ListView.builder(
-                  itemCount: _filteredDogs.length,
+                  itemCount: _filteredProducts.length,
                   itemBuilder: (context, index) {
                     return Card(
                       margin: EdgeInsets.only(top: 10),
@@ -134,15 +140,17 @@ class _DictState extends State<Dict> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => DogDetail(
-                                          dog: _filteredDogs[index]['dogName']
+                                        builder: (context) => ProductDetail(
+                                          product: _filteredProducts[index]
+                                                  ['prodCode']
                                               .toString(),
                                         ),
                                       ),
                                     );
                                   },
                                   child: Text(
-                                    _filteredDogs[index]['dogName'].toString(),
+                                    _filteredProducts[index]['prodName']
+                                        .toString(),
                                     style: TextStyle(
                                         fontSize: 14, color: Colors.black),
                                   ),

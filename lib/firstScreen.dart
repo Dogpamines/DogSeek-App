@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'emergency2.dart';
 import 'location.dart';
 import 'searchHospital.dart';
 import 'mapMain.dart';
-import 'emergency.dart';
-import 'memo.dart';
-import 'dict.dart';
+import 'products.dart';
 
 class FirstScreen extends StatelessWidget {
   const FirstScreen({super.key});
@@ -49,7 +46,7 @@ class FirstScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Dict()),
+                          MaterialPageRoute(builder: (context) => Products()),
                         );
                       },
                       child: Container(
@@ -62,7 +59,7 @@ class FirstScreen extends StatelessWidget {
                           image: AssetImage('assets/images/myrecord.png'),
                         )),
                         child: Text(
-                          "병원기록",
+                          "사료찾기",
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

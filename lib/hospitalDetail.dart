@@ -115,11 +115,10 @@ class HospitalDetail extends StatelessWidget {
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 3),
-                            child:
-                              Text(
+                            child: Text(
                               '${hospital['sitetel']}',
                               style: TextStyle(color: Colors.lightBlueAccent),
-                          ),
+                            ),
                           ),
                         ],
                       ),
