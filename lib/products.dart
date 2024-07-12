@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dogsick_project/productDetail.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'location.dart';
 
@@ -21,6 +22,8 @@ class _ProductsState extends State<Products> {
   void initState() {
     super.initState();
     _fetchProducts();
+    _getToken();
+    _intFirebaseMessaging(context);
   }
 
   Future<void> _fetchProducts() async {
@@ -171,4 +174,36 @@ class _ProductsState extends State<Products> {
                 ),
     );
   }
+}
+
+_getToken() async {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  print("message.getToken(), ${await messaging.getToken()}");
+}
+
+_intFirebaseMessaging(BuildContext context) {
+  FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+    // 메시지 제목 출력
+    print(event.notification!.title);
+    // 메시지 본문 출력
+    print(event.notification!.body);
+    // 다이얼로그를 화면에 띄움
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // 다이얼로그 위젯
+          return AlertDialog(
+            title: Text('알림'),
+            content: Text(event.notification!.body!),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Ok'),
+              )
+            ],
+          );
+        });
+  });
 }
