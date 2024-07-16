@@ -74,3 +74,28 @@ android {
 flutter {
     source = "../.."
 }
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 34
+    defaultConfig {
+        applicationId "com.dogpamines.dogsick_project"
+        minSdkVersion 23
+        targetSdkVersion 34
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true // 릴리즈 빌드에서는 코드 축소 활성화
+            shrinkResources true // 릴리즈 빌드에서는 리소스 축소 활성화
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false // 디버그 빌드에서는 코드 축소 비활성화
+            shrinkResources false // 디버그 빌드에서는 리소스 축소 비활성화
+        }
+    }
+}
