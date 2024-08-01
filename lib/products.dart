@@ -36,7 +36,7 @@ class _ProductsState extends State<Products> {
           _isLoading = false;
         });
       } else {
-        throw Exception('Failed to load dogs');
+        throw Exception('Failed to load products');
       }
     } catch (e) {
       setState(() {
@@ -183,15 +183,11 @@ _getToken() async {
 
 _intFirebaseMessaging(BuildContext context) {
   FirebaseMessaging.onMessage.listen((RemoteMessage event) {
-    // 메시지 제목 출력
     print(event.notification!.title);
-    // 메시지 본문 출력
     print(event.notification!.body);
-    // 다이얼로그를 화면에 띄움
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          // 다이얼로그 위젯
           return AlertDialog(
             title: Text('알림'),
             content: Text(event.notification!.body!),
